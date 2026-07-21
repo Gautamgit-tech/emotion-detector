@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotion Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 60px auto;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 60%;
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #system_response {
+            margin-top: 30px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Emotion Detector</h1>
+    <p>Enter a statement below to detect the underlying emotion.</p>
+
+    <input type="text" id="textToAnalyze" placeholder="Type your statement here...">
+    <button onclick="RunSentimentAnalysis()">Detect Emotion</button>
+
+    <div id="system_response"></div>
+
+    <script>
+        function RunSentimentAnalysis() {
+            const textToAnalyze = document.getElementById("textToAnalyze").value;
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById("system_response").innerText = this.responseText;
+                }
+            };
+            xhttp.open(
+                "GET",
+                "/emotionDetector?textToAnalyze=" + encodeURIComponent(textToAnalyze),
+                true
+            );
+            xhttp.send();
+        }
+    </script>
+</body>
+</html>
